@@ -1,9 +1,14 @@
 import "package:blogs_system/common/widgets/appbar/app_bar.dart";
 import "package:blogs_system/common/widgets/button/basic_fill_button.dart";
+import "package:blogs_system/core/common/widgets/loader.dart";
 import "package:blogs_system/core/configs/theme/app_colors.dart";
+import "package:blogs_system/core/utils/show_snackbar.dart";
+import "package:blogs_system/main.dart";
+import "package:blogs_system/presentation/auth/bloc/auth_bloc.dart";
 import "package:blogs_system/presentation/auth/pages/register.dart";
 import "package:blogs_system/presentation/auth/widgets/auth_field.dart";
 import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -32,60 +37,85 @@ class _LoginPageState extends State<LoginPage> {
         padding: const EdgeInsets.symmetric(
           horizontal: 20,
         ),
-        child: Form(
-          key: formKey,
-          child: Column(
-            children: [
-              const SizedBox(height: 40),
-              _registerText(),
-              const SizedBox(height: 40),
-              AuthField(
-                hintText: "Email",
-                controller: emailController,
-              ),
-              const SizedBox(height: 21),
-              AuthField(
-                hintText: "Password",
-                controller: passwordController,
-                isObscureText: true,
-              ),
-              const SizedBox(height: 21),
-              BasicFillButton(
-                onPressed: () {},
-                title: "Login",
-                height: 65,
-              ),
-              const SizedBox(height: 21),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => const RegisterPage(),
+        child: BlocConsumer<AuthBloc, AuthState>(
+          listener: (context, state) {
+            if (state is AuthFailure) {
+              showSnackBar(context, state.message);
+            }
+            if (state is AuthSuccess) {
+              print(state.authResponse.user);
+            }
+          },
+          builder: (context, state) {
+            if (state is AuthLoading) {
+              return const Loader();
+            }
+            return SingleChildScrollView(
+              child: Form(
+                key: formKey,
+                child: Column(
+                  children: [
+                    const SizedBox(height: 40),
+                    _registerText(),
+                    const SizedBox(height: 40),
+                    AuthField(
+                      hintText: "Email",
+                      controller: emailController,
                     ),
-                  );
-                },
-                child: RichText(
-                  text: TextSpan(
-                    text: "Don't have an account? ",
-                    style: Theme.of(context)
-                        .textTheme
-                        .titleMedium
-                        ?.copyWith(fontSize: 17),
-                    children: [
-                      TextSpan(
-                        text: "Register Now",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleMedium
-                            ?.copyWith(color: AppColors.main, fontSize: 17),
+                    const SizedBox(height: 21),
+                    AuthField(
+                      hintText: "Password",
+                      controller: passwordController,
+                      isObscureText: true,
+                    ),
+                    const SizedBox(height: 21),
+                    BasicFillButton(
+                      onPressed: () {
+                        context.read<AuthBloc>().add(
+                              AuthLogin(
+                                  email: emailController.text.trim(),
+                                  password: passwordController.text.trim()),
+                            );
+                      },
+                      title: "Login",
+                      height: 65,
+                    ),
+                    const SizedBox(height: 21),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) =>
+                                const RegisterPage(),
+                          ),
+                        );
+                      },
+                      child: RichText(
+                        text: TextSpan(
+                          text: "Don't have an account? ",
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleMedium
+                              ?.copyWith(fontSize: 17),
+                          children: [
+                            TextSpan(
+                              text: "Register Now",
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.copyWith(
+                                      color: AppColors.main, fontSize: 17),
+                            ),
+                          ],
+                        ),
                       ),
-                    ],
-                  ),
+                    )
+                  ],
                 ),
-              )
-            ],
-          ),
+              ),
+            );
+          },
         ),
       ),
     );

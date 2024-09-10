@@ -4,4 +4,5 @@ class AppVectors {
 
   //Vector Assets
   static const String logo = "${basePath}news_logo$format";
+  static const String menus = "${basePath}menu$format";
 }

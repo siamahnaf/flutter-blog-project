@@ -1,6 +1,9 @@
+import "package:blogs_system/core/common/cubits/app_user/app_user_cubit.dart";
 import "package:blogs_system/core/configs/assets/app_vectors.dart";
+import "package:blogs_system/presentation/blog/pages/blog_page.dart";
 import "package:blogs_system/presentation/intro/pages/get_started.dart";
 import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_svg/svg.dart";
 
 class SplashPage extends StatefulWidget {
@@ -32,10 +35,16 @@ class _SplashPageState extends State<SplashPage> {
 
   Future<void> redirect() async {
     await Future.delayed(const Duration(seconds: 2));
-    Navigator.push(
+    if (!mounted) return;
+
+    final bool isLoggedIn =
+        context.read<AppUserCubit>().state is AppUserLoggedIn;
+
+    Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (BuildContext context) => const GetStartedPage(),
+        builder: (BuildContext context) =>
+            isLoggedIn ? const BlogPage() : const GetStartedPage(),
       ),
     );
   }
