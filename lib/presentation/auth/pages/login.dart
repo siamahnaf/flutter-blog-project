@@ -42,9 +42,6 @@ class _LoginPageState extends State<LoginPage> {
             if (state is AuthFailure) {
               showSnackBar(context, state.message);
             }
-            if (state is AuthSuccess) {
-              print(state.authResponse.user);
-            }
           },
           builder: (context, state) {
             if (state is AuthLoading) {

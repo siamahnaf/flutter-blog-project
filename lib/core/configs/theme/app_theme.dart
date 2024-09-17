@@ -53,6 +53,23 @@ class AppTheme {
         ),
         borderRadius: BorderRadius.circular(10),
       ),
+      errorBorder: OutlineInputBorder(
+        borderSide: const BorderSide(
+          color: Colors.red,
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      border: OutlineInputBorder(
+        borderSide: const BorderSide(
+          color: AppColors.greyBorder,
+          width: 1,
+        ),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      errorStyle: const TextStyle(
+        fontSize: 14,
+      ),
       contentPadding: const EdgeInsets.symmetric(
         vertical: 20,
         horizontal: 20,

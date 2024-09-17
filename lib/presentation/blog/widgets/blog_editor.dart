@@ -22,6 +22,13 @@ class BlogEditor extends StatelessWidget {
       ),
       minLines: minLines,
       maxLines: maxLines,
+      validator: (value) {
+        if (value!.isEmpty) {
+          return "$hintText is missing!";
+        } else {
+          return null;
+        }
+      },
     );
   }
 }

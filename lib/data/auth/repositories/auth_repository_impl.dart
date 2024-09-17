@@ -7,7 +7,6 @@ import "package:supabase_flutter/supabase_flutter.dart" as sb;
 
 class AuthRepositoryImpl implements AuthRepository {
   final AuthSupabaseDataSource supabaseDataSource;
-
   AuthRepositoryImpl(this.supabaseDataSource);
 
   @override

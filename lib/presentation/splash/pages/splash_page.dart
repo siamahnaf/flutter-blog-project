@@ -44,7 +44,7 @@ class _SplashPageState extends State<SplashPage> {
       context,
       MaterialPageRoute(
         builder: (BuildContext context) =>
-            isLoggedIn ? const BlogPage() : const GetStartedPage(),
+            isLoggedIn ? BlogPage() : const GetStartedPage(),
       ),
     );
   }

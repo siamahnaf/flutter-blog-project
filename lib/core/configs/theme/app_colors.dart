@@ -8,4 +8,5 @@ class AppColors {
   static const greyBorder = Color(0xffE8ECF4);
   static const fillColor = Color(0xffF7F8F9);
   static const grey = Color(0xff8391A1);
+  static const greyDivided = Color(0xff979797);
 }
